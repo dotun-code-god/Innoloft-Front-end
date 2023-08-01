@@ -33,16 +33,17 @@ function App() {
 
   return (
     <div className='font-Open_Sans bg-[#f9fafb]'>
-      <Header baseURL={baseURL} userPicture={product && product.user.profilePicture} config={config} />
+      <Header baseURL={baseURL} userPicture={product?.user.profilePicture} config={config} />
 
-      <div className={`flex ${location.pathname == '/product' ? 'items-start' : 'items-center'} justify-between gap-4 sm:px-[5%] px-[3%] py-12`}>
+      <div className={`flex items-start justify-between gap-4 sm:px-[5%] px-[3%] py-12`}>
         <div className='lg:w-[20%] md:block hidden'>
-          <Navigation user={product && product.user} company={product && product.company} />
+          <Navigation user={product?.user} company={product?.company} />
         </div>
         <div className='lg:w-[80%] md:w-[70%] w-full'>
           <Routes>
             <Route path='/' element={<Home config={config} />} />
-            <Route path='/product' element={<Product config={config} product={product} user={product && product.user} />} />
+            <Route path='/product' element={<Product config={config} product={product} user={product?.user} edit={false} baseURL={baseURL} />} />
+            <Route path='/product/edit' element={<Product config={config} product={product} user={product?.user} edit={true} baseURL={baseURL} />} />
           </Routes>
         </div>
       </div>

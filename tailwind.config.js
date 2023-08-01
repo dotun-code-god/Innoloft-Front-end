@@ -12,6 +12,9 @@ export default {
       colors: {
         primary_bold: '#374151',
         primary_regular: '#6B7280'
+      },
+      screens: {
+        xs: {max:'400'}
       }
     },
   },

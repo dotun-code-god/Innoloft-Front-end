@@ -7,4 +7,7 @@
     .product_container {
         @apply bg-white border-[#E5E7EB] border-[0.1rem] rounded-md
     }
+    .input {
+        @apply border-2 rounded-xl focus:outline-none w-full
+    }
 }
