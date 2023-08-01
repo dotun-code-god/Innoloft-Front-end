@@ -23,16 +23,7 @@ function Product({ config, product, user, edit }) {
     const [name, setName] = useState(product?.name);
     const [description, setDescription] = useState(product?.description);
     const [video, setVideo] = useState(product?.video);
-    const [categories, setCategories] = useState([
-        {
-            "id": 5101,
-            "name": "IT platforms"
-        },
-        {
-            "id": 5100,
-            "name": "B2B marketplaces"
-        }
-    ]);
+    const [categories, setCategories] = useState(product?.categories);
     const [TRL, setTRL] = useState(product?.trl);
     const [businessModels, setBusinessModels] = useState(product?.businessModels);
     const [investmentEffort, setInvestmentEffort] = useState(product?.investmentEffort);
@@ -40,7 +31,7 @@ function Product({ config, product, user, edit }) {
 
     const updateNestedValue = (value, id, key, setType, type) => {
         categories[key]['name'] = value;
-        console.log(categories)
+        // console.log(categories)
     }
 
     const updateProduct = (e) =>{
@@ -57,7 +48,7 @@ function Product({ config, product, user, edit }) {
             <div className={`-mt-8`} style={{ color: `${config?.mainColor}`}}>
                 <Navigators product={product} config={config} edit={edit} />
                 <div className="my-3 lg:flex">
-                    <div className="rounded-md lg:rounded-tr-none rounded-br-none rounded-bl-none lg:rounded-bl-md border-b-0 lg:border-b-[0.1rem] lg:border-r-0 product_container lg:w-[55%]">
+                    <div className={`rounded-md lg:rounded-tr-none rounded-br-none rounded-bl-none lg:rounded-bl-md border-b-0 lg:border-b-[0.1rem] lg:border-r-0 product_container ${config?.hasUserSection ? 'lg:w-[55%]' : ''}`}>
                         <div className="relative">
                             <div className={`text-white p-1 absolute top-0 rounded-tl-md text-sm left-0 flex items-center`} style={{ backgroundColor: `${config?.mainColor}`}}>
                                 <SiBmcsoftware className="text-3xl p-2" />
@@ -90,7 +81,7 @@ function Product({ config, product, user, edit }) {
                         </div>
 
                     </div>
-                    <div className="rounded-md rounded-tl-none lg:rounded-bl-none rounded-tr-none lg:rounded-tr-md border-t-0 lg:border-t-[0.1rem] product_container lg:w-[45%] p-6">
+                    <div className={`${config?.hasUserSection ? 'block' : 'hidden'} rounded-md rounded-tl-none lg:rounded-bl-none rounded-tr-none lg:rounded-tr-md border-t-0 lg:border-t-[0.1rem] product_container lg:w-[45%] p-6`}>
                         <p className="text-sm font-bold">Offered By</p>
                         <img src="https://img.innoloft.com/logo.svg" alt="Innoloft Logo" className="w-40 mt-4" />
                         <div className="mt-4 flex items-center gap-2">
@@ -139,12 +130,12 @@ function Product({ config, product, user, edit }) {
                             <div>
                                 <h1>Categories</h1>
                                 <div className="mt-2 flex flex-wrap items-center gap-1">
-                                    {edit ? categories.map((category, key) => (
+                                    {edit ? categories || product?.categories.map((category, key) => (
                                         <input
                                             type="text"
                                             key={key}
                                             className="input p-2"
-                                            // value={category.name}
+                                            value={category.name}
                                             onChange={(e) => updateNestedValue(e.target.value, category.id, key, setCategories, categories)} />
                                     ))
                                     : product?.categories.map((category, key) => (
