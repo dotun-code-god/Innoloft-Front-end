@@ -15,7 +15,7 @@ import { Navigate } from "react-router";
 function Product({ config, product, user, edit, baseURL }) {
     const [TRLs, setTRLs] = useState(null);
     useEffect(() => {
-        axios.get('https://api-test.innoloft.com/trl/').then(res => {  
+        axios.get('https://api-test.innoloft.com/trl/').then(res => {
             setTRLs(res.data)
         })
     }, [])
@@ -23,37 +23,48 @@ function Product({ config, product, user, edit, baseURL }) {
     const [name, setName] = useState(product?.name);
     const [description, setDescription] = useState(product?.description);
     const [video, setVideo] = useState(product?.video);
-    const [categories, setCategories] = useState(product?.categories);
+    const [categories, setCategories] = useState([]);
     const [TRL, setTRL] = useState(product?.trl);
-    const [businessModels, setBusinessModels] = useState(product?.businessModels);
+    const [businessModels, setBusinessModels] = useState([]);
     const [investmentEffort, setInvestmentEffort] = useState(product?.investmentEffort);
 
 
-    const updateNestedValue = (value, id, key, setType, type) => {
-        categories[key]['name'] = value;
-        // console.log(categories)
+    useEffect(() => {
+        setCategories(product?.categories)
+        setBusinessModels(product?.businessModels)
+    }, [product])
+
+    const updateNestedValue = (value, id, setType) => {
+        setType(prevState =>
+            prevState.map(obj => {
+                if (obj.id === id) {
+                    return { ...obj, name: value };
+                }
+                return obj;
+            })
+        )
     }
 
-    const updateProduct = (e) =>{
+    const updateProduct = (e) => {
         e.preventDefault();
         axios
-            .put(`${baseURL}/product/6781`, {name, description, video, categories, trl:TRL, businessModels, investmentEffort})
+            .put(`${baseURL}/product/6781`, { name, description, video, categories, trl: TRL, businessModels, investmentEffort })
             .then((response) => {
                 Navigate('/product');
             })
             .catch((e) => {
-                console.log(e.message)
+                console.log(e)
             })
     }
 
     return (
         <form onSubmit={updateProduct}>
-            <div className={`-mt-8`} style={{ color: `${config?.mainColor}`}}>
+            <div className={`-mt-8`} style={{ color: `${config?.mainColor}` }}>
                 <Navigators product={product} config={config} edit={edit} />
                 <div className="my-3 lg:flex">
                     <div className={`rounded-md lg:rounded-tr-none rounded-br-none rounded-bl-none lg:rounded-bl-md border-b-0 lg:border-b-[0.1rem] lg:border-r-0 product_container ${config?.hasUserSection ? 'lg:w-[55%]' : ''}`}>
                         <div className="relative">
-                            <div className={`text-white p-1 absolute top-0 rounded-tl-md text-sm left-0 flex items-center`} style={{ backgroundColor: `${config?.mainColor}`}}>
+                            <div className={`text-white p-1 absolute top-0 rounded-tl-md text-sm left-0 flex items-center`} style={{ backgroundColor: `${config?.mainColor}` }}>
                                 <SiBmcsoftware className="text-3xl p-2" />
                                 <span className="pr-1">{product?.type.name}</span>
                             </div>
@@ -133,17 +144,17 @@ function Product({ config, product, user, edit, baseURL }) {
                             <div>
                                 <h1>Categories</h1>
                                 <div className="mt-2 flex flex-wrap items-center gap-1">
-                                    {edit ? categories || product?.categories.map((category, key) => (
+                                    {edit ? categories && categories.map((category, key) => (
                                         <input
                                             type="text"
                                             key={key}
                                             className="input p-2"
                                             value={category.name}
-                                            onChange={(e) => updateNestedValue(e.target.value, category.id, key, setCategories, categories)} />
+                                            onChange={(e) => updateNestedValue(e.target.value, category.id, setCategories)} />
                                     ))
-                                    : product?.categories.map((category, key) => (
-                                        <span key={key} className="rounded-3xl px-3 text-xs py-1 bg-[#E5E7EB]">{category.name}</span>
-                                    ))}
+                                        : product?.categories.map((category, key) => (
+                                            <span key={key} className="rounded-3xl px-3 text-xs py-1 bg-[#E5E7EB]">{category.name}</span>
+                                        ))}
                                 </div>
                             </div>
                         </div>
@@ -154,12 +165,12 @@ function Product({ config, product, user, edit, baseURL }) {
                             <div>
                                 <h1>Business Model</h1>
                                 <div className="mt-2 flex flex-wrap items-center gap-1">
-                                    {edit ? businessModels || product?.businessModels.map((model, key) => (
-                                        <input 
-                                            type="text" 
-                                            key={key} 
-                                            className="input p-2" 
-                                            value={model.name} 
+                                    {edit ? businessModels && businessModels.map((model, key) => (
+                                        <input
+                                            type="text"
+                                            key={key}
+                                            className="input p-2"
+                                            value={model.name}
                                             onChange={(e) => updateNestedValue(e.target.value, model.id, setBusinessModels, businessModels)} />
                                     )) : product?.businessModels.map((model, key) => (
                                         <span key={key} className="rounded-3xl px-3 text-xs py-1 bg-[#E5E7EB]">{model.name}</span>
@@ -205,7 +216,7 @@ function Product({ config, product, user, edit, baseURL }) {
                 </div>
                 {edit ? (
                     <div className="flex justify-end">
-                        <button type="submit" className="text-white px-3 py-2 rounded-md" style={{ backgroundColor: `${config?.mainColor}`}}>Save</button>
+                        <button type="submit" className="text-white px-3 py-2 rounded-md" style={{ backgroundColor: `${config?.mainColor}` }}>Save</button>
                     </div>
                 ) : ''}
             </div>

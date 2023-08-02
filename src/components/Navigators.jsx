@@ -20,7 +20,7 @@ function Navigators({ product, config, edit }) {
         </div>
       )}
       <div>
-        <NavLink to={edit ? '/product' : '/product/edit'} className={`text-white px-3 py-1 rounded-md text-sm`} style={{ backgroundColor: `${config?.mainColor}`}}>{edit ? 'View Offer' : 'Edit'}</NavLink>
+        <NavLink to={edit ? '/product' : '/product/edit'} className={`text-white px-3 py-2 rounded-3xl text-sm`} style={{ backgroundColor: `${config?.mainColor}`}}>{edit ? 'View Offer' : 'Edit'}</NavLink>
       </div>
     </div>
   )
