@@ -12,10 +12,10 @@ import Investments from '../assets/icons/inno_investor.png'
 import axios from "axios";
 import { Navigate } from "react-router";
 
-function Product({ config, product, user, edit }) {
+function Product({ config, product, user, edit, baseURL }) {
     const [TRLs, setTRLs] = useState(null);
     useEffect(() => {
-        axios.get('https://api-test.innoloft.com/trl/').then(res => {
+        axios.get('https://api-test.innoloft.com/trl/').then(res => {  
             setTRLs(res.data)
         })
     }, [])
@@ -40,6 +40,9 @@ function Product({ config, product, user, edit }) {
             .put(`${baseURL}/product/6781`, {name, description, video, categories, trl:TRL, businessModels, investmentEffort})
             .then((response) => {
                 Navigate('/product');
+            })
+            .catch((e) => {
+                console.log(e.message)
             })
     }
 

@@ -14,7 +14,7 @@ export default {
         primary_regular: '#6B7280'
       },
       screens: {
-        xs: {max:'400'}
+        xs: {max:'400px'}
       }
     },
   },
